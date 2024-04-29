@@ -30,8 +30,8 @@ describe('react-draggable', function () {
 
   afterEach(function() {
     try {
-      TestUtils.Simulate.mouseUp(ReactDOM.findDOMNode(drag)); // reset user-select
-      ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(drag).parentNode);
+      TestUtils.Simulate.mouseUp(drag.ref); // reset user-select
+      ReactDOM.unmountComponentAtNode(drag.ref.parentNode);
     } catch(e) { return; }
   });
 
@@ -69,7 +69,7 @@ describe('react-draggable', function () {
           <div/>
         </Draggable>
       );
-      var node = ReactDOM.findDOMNode(drag);
+      var node = drag.ref;
       assert(node.getAttribute('class').indexOf('foo') >= 0);
       TestUtils.Simulate.mouseDown(node);
       assert(node.getAttribute('class').indexOf('bar') >= 0);
@@ -195,7 +195,7 @@ describe('react-draggable', function () {
         </Draggable>
       );
 
-      TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(drag));
+      TestUtils.Simulate.mouseDown(drag.ref);
       assert.equal(called, true);
     });
 
@@ -207,8 +207,8 @@ describe('react-draggable', function () {
         </Draggable>
       );
 
-      TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(drag));
-      TestUtils.Simulate.mouseUp(ReactDOM.findDOMNode(drag));
+      TestUtils.Simulate.mouseDown(drag.ref);
+      TestUtils.Simulate.mouseUp(drag.ref);
       assert.equal(called, true);
     });
 
@@ -220,7 +220,7 @@ describe('react-draggable', function () {
         </Draggable>
       );
 
-      TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(drag));
+      TestUtils.Simulate.mouseDown(drag.ref);
       assert.equal(called, false);
     });
 
@@ -232,7 +232,7 @@ describe('react-draggable', function () {
         </Draggable>
       );
 
-      TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(drag));
+      TestUtils.Simulate.mouseDown(drag.ref);
       assert.equal(called, false);
       mouseMove(10, 10);
       assert.equal(called, true);
@@ -248,7 +248,7 @@ describe('react-draggable', function () {
         </Draggable>
       );
 
-      const node = ReactDOM.findDOMNode(drag);
+      const node = drag.ref;
       simulateMovementFromTo(drag, 0, 0, 100, 100);
 
       const style = node.getAttribute('style');
@@ -264,7 +264,7 @@ describe('react-draggable', function () {
         </Draggable>
       );
 
-      const node = ReactDOM.findDOMNode(drag);
+      const node = drag.ref;
       simulateMovementFromTo(drag, 0, 0, 100, 100);
 
       const style = node.getAttribute('style');
@@ -280,7 +280,7 @@ describe('react-draggable', function () {
         </Draggable>
       );
 
-      const node = ReactDOM.findDOMNode(drag);
+      const node = drag.ref;
       simulateMovementFromTo(drag, 0, 0, 100, 100);
 
       const style = node.getAttribute('style');
@@ -296,7 +296,7 @@ describe('react-draggable', function () {
         </Draggable>
       );
 
-      const node = ReactDOM.findDOMNode(drag);
+      const node = drag.ref;
       simulateMovementFromTo(drag, 0, 0, 100, 100);
 
       const style = node.getAttribute('style');
@@ -312,7 +312,7 @@ describe('react-draggable', function () {
         </Draggable>
       );
 
-      const node = ReactDOM.findDOMNode(drag);
+      const node = drag.ref;
       simulateMovementFromTo(drag, 0, 0, 100, 100);
 
       const style = node.getAttribute('style');
@@ -347,7 +347,7 @@ describe('react-draggable', function () {
           </Draggable>
       );
 
-      const node = ReactDOM.findDOMNode(drag);
+      const node = drag.ref;
       simulateMovementFromTo(drag, 0, 0, 100, 100);
 
       const transform = node.getAttribute('transform');
@@ -361,7 +361,7 @@ describe('react-draggable', function () {
          </Draggable>
        );
 
-       const node = ReactDOM.findDOMNode(drag);
+       const node = drag.ref;
 
        assert(!document.body.classList.contains('react-draggable-transparent-selection'));
        TestUtils.Simulate.mouseDown(node, {clientX: 0, clientY: 0});
@@ -378,7 +378,7 @@ describe('react-draggable', function () {
         </Draggable>
       );
 
-      const node = ReactDOM.findDOMNode(drag);
+      const node = drag.ref;
 
       assert(!document.body.classList.contains('react-draggable-transparent-selection'));
       TestUtils.Simulate.mouseDown(node, {clientX: 0, clientY: 0});
@@ -396,7 +396,7 @@ describe('react-draggable', function () {
         </Draggable>
       );
 
-      const node = ReactDOM.findDOMNode(drag);
+      const node = drag.ref;
 
       assert(!document.body.classList.contains('react-draggable-transparent-selection'));
       TestUtils.Simulate.mouseDown(node, {clientX: 0, clientY: 0});
@@ -433,7 +433,7 @@ describe('react-draggable', function () {
       }
 
       drag = TestUtils.renderIntoDocument(<TestCase/>);
-      const dragEl = ReactDOM.findDOMNode(drag);
+      const dragEl = drag.ref;
       // Need to append to a real document to test focus/selection, can't just be a fragment
       document.body.appendChild(dragEl);
       const input = dragEl.querySelector('input');
@@ -507,21 +507,21 @@ describe('react-draggable', function () {
 
     function mouseDownOn(drag, selector, shouldDrag) {
       resetDragging(drag);
-      const node = ReactDOM.findDOMNode(drag).querySelector(selector);
+      const node = drag.ref.querySelector(selector);
       if (!node) throw new Error(`Selector not found: ${selector}`);
       TestUtils.Simulate.mouseDown(node);
       assert.equal(drag.state.dragging, shouldDrag);
     }
 
     function resetDragging(drag) {
-      TestUtils.Simulate.mouseUp(ReactDOM.findDOMNode(drag));
+      TestUtils.Simulate.mouseUp(drag.ref);
       assert.equal(drag.state.dragging, false);
     }
 
     it('should initialize dragging onmousedown', function () {
       drag = TestUtils.renderIntoDocument(<Draggable><div/></Draggable>);
 
-      TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(drag));
+      TestUtils.Simulate.mouseDown(drag.ref);
       assert.equal(drag.state.dragging, true);
     });
 
@@ -594,7 +594,7 @@ describe('react-draggable', function () {
     it('should discontinue dragging onmouseup', function () {
       drag = TestUtils.renderIntoDocument(<Draggable><div/></Draggable>);
 
-      TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(drag));
+      TestUtils.Simulate.mouseDown(drag.ref);
       assert.equal(drag.state.dragging, true);
 
       resetDragging(drag);
@@ -606,7 +606,7 @@ describe('react-draggable', function () {
       // Need to dispatch this ourselves as there is no onTouchStart handler (due to passive)
       // so TestUtils.Simulate will not work
       const e = new Event('touchstart');
-      ReactDOM.findDOMNode(drag).dispatchEvent(e);
+      drag.ref.dispatchEvent(e);
       assert.equal(drag.state.dragging, true);
     });
 
@@ -617,7 +617,7 @@ describe('react-draggable', function () {
       // Oddly `e.defaultPrevented` is not changing here. Maybe because we're not mounted to a real doc?
       let pdCalled = false;
       e.preventDefault = function() { pdCalled = true; };
-      ReactDOM.findDOMNode(drag).dispatchEvent(e);
+      drag.ref.dispatchEvent(e);
       assert(pdCalled);
       assert.equal(drag.state.dragging, true);
     });
@@ -637,7 +637,7 @@ describe('react-draggable', function () {
       const e = new Event('touchstart');
       let pdCalled = false;
       e.preventDefault = function() { pdCalled = true; };
-      ReactDOM.findDOMNode(drag).querySelector('.content').dispatchEvent(e);
+      drag.ref.querySelector('.content').dispatchEvent(e);
       assert(!pdCalled);
       assert(drag.state.dragging !== true);
     });
@@ -650,7 +650,7 @@ describe('react-draggable', function () {
         dragCalled = true;
       }
       drag = TestUtils.renderIntoDocument(<Draggable onDrag={onDrag}><div/></Draggable>);
-      const node = ReactDOM.findDOMNode(drag);
+      const node = drag.ref;
 
       // Create a container we can scroll. I'm doing it this way so we can still access <Draggable>.
       // Enzyme (airbnb project) would make this a lot easier.
@@ -688,7 +688,7 @@ describe('react-draggable', function () {
         assert.equal(coreEvent.deltaY, 0);
       }
       drag = TestUtils.renderIntoDocument(<Draggable onDrag={onDrag} offsetParent={document.body}><div/></Draggable>);
-      const node = ReactDOM.findDOMNode(drag);
+      const node = drag.ref;
 
       // Create a container we can scroll. I'm doing it this way so we can still access <Draggable>.
       // Enzyme (airbnb project) would make this a lot easier.
@@ -721,7 +721,7 @@ describe('react-draggable', function () {
         assert.equal(data.y, 100);
         assert.equal(data.deltaX, 100);
         assert.equal(data.deltaY, 100);
-        assert.equal(data.node, ReactDOM.findDOMNode(drag));
+        assert.equal(data.node, drag.ref);
         done();
       }
       drag = TestUtils.renderIntoDocument(
@@ -734,11 +734,10 @@ describe('react-draggable', function () {
       simulateMovementFromTo(drag, 0, 0, 100, 100);
     });
 
-    it('should call back with correct dom node with nodeRef', function (done) {
+    it('should call back with correct dom node with ref', function (done) {
       function onDrag(event, data) {
-        // Being tricky here and installing the ref on the inner child, to ensure it's working
-        // and not just falling back on ReactDOM.findDOMNode()
-        assert.equal(data.node, ReactDOM.findDOMNode(drag).firstChild);
+        // Being tricky here and installing a ref on the inner child, to ensure it's working
+        assert.equal(data.node, drag.ref.firstChild);
         done();
       }
       const nodeRef = React.createRef();
@@ -754,21 +753,21 @@ describe('react-draggable', function () {
       simulateMovementFromTo(drag, 0, 0, 100, 100);
     });
 
-    it('should call back with correct dom node with nodeRef (forwardRef)', function (done) {
+    it('should call back with correct dom node with ref (forwardRef)', function (done) {
 
       const Component1 = React.forwardRef(function (props, ref) {
         return <div {...props} ref={ref}>Nested component</div>;
       });
 
       function onDrag(event, data) {
-        assert.equal(data.node, ReactDOM.findDOMNode(drag));
+        assert.equal(data.node, drag.ref);
         assert.equal(data.node.innerText, 'Nested component');
         done();
       }
       const nodeRef = React.createRef();
       drag = TestUtils.renderIntoDocument(
         <DraggableCore onDrag={onDrag} nodeRef={nodeRef}>
-          <Component1 ref={nodeRef} />
+          <Component1 nodeRef={nodeRef} />
         </DraggableCore>
       );
 
@@ -819,7 +818,7 @@ describe('react-draggable', function () {
         assert.equal(data.y, 50);
         assert.equal(data.deltaX, 50);
         assert.equal(data.deltaY, 50);
-        assert.equal(data.node, ReactDOM.findDOMNode(drag));
+        assert.equal(data.node, drag.ref);
         done();
       }
       drag = TestUtils.renderIntoDocument(
@@ -839,7 +838,7 @@ describe('react-draggable', function () {
         assert.equal(data.y, 200);
         assert.equal(data.deltaX, 200);
         assert.equal(data.deltaY, 200);
-        assert.equal(data.node, ReactDOM.findDOMNode(drag));
+        assert.equal(data.node, drag.ref);
         done();
       }
       drag = TestUtils.renderIntoDocument(
@@ -892,7 +891,7 @@ describe('react-draggable', function () {
         assert.equal(data.y, 100);
         assert.equal(data.deltaX, 100);
         assert.equal(data.deltaY, 100);
-        assert.equal(data.node, ReactDOM.findDOMNode(drag));
+        assert.equal(data.node, drag.ref);
         done();
       }
       drag = TestUtils.renderIntoDocument(
@@ -912,7 +911,7 @@ describe('react-draggable', function () {
         assert.equal(data.y, 50);
         assert.equal(data.deltaX, 50);
         assert.equal(data.deltaY, 50);
-        assert.equal(data.node, ReactDOM.findDOMNode(drag));
+        assert.equal(data.node, drag.ref);
         done();
       }
       drag = TestUtils.renderIntoDocument(
@@ -932,7 +931,7 @@ describe('react-draggable', function () {
         assert.equal(data.y, 200);
         assert.equal(data.deltaX, 200);
         assert.equal(data.deltaY, 200);
-        assert.equal(data.node, ReactDOM.findDOMNode(drag));
+        assert.equal(data.node, drag.ref);
         done();
       }
       drag = TestUtils.renderIntoDocument(
@@ -951,7 +950,7 @@ describe('react-draggable', function () {
         assert.equal(data.y, 96);
         assert.equal(data.deltaX, 99);
         assert.equal(data.deltaY, 96);
-        assert.equal(data.node, ReactDOM.findDOMNode(drag));
+        assert.equal(data.node, drag.ref);
       }
       function onStop(event, data) {
         assert.equal(data.x, 99);
@@ -959,7 +958,7 @@ describe('react-draggable', function () {
         // Single drag-and-stop so stop {x, y} is same as drag {x, y}.
         assert.equal(data.deltaX, 0);
         assert.equal(data.deltaY, 0);
-        assert.equal(data.node, ReactDOM.findDOMNode(drag));
+        assert.equal(data.node, drag.ref);
         done();
       }
       drag = TestUtils.renderIntoDocument(
@@ -994,7 +993,7 @@ function renderToHTML(component) {
 }
 
 function renderToNode(component) {
-  return ReactDOM.findDOMNode(TestUtils.renderIntoDocument(component));
+  return component.ref;
 }
 
 // Simulate a movement; can't use TestUtils here because it uses react's event system only,
@@ -1012,7 +1011,7 @@ function mouseMove(x, y, node) {
 
 
 function simulateMovementFromTo(drag, fromX, fromY, toX, toY) {
-  const node = ReactDOM.findDOMNode(drag);
+  const node = drag.ref;
 
   TestUtils.Simulate.mouseDown(node, {clientX: fromX, clientY: fromY});
   mouseMove(toX, toY, node);

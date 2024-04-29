@@ -16,7 +16,7 @@ declare module 'react-draggable' {
     defaultClassNameDragged: string,
     defaultPosition: ControlPosition,
     positionOffset: PositionOffsetControlPosition,
-    position: ControlPosition
+    position: ControlPosition,
   }
 
   export type DraggableEvent = React.MouseEvent<HTMLElement | SVGElement>
@@ -49,7 +49,7 @@ declare module 'react-draggable' {
     offsetParent: HTMLElement,
     grid: [number, number],
     handle: string,
-    nodeRef?: React.RefObject<HTMLElement>,
+    nodeRef: React.RefObject<HTMLElement>,
     onStart: DraggableEventHandler,
     onDrag: DraggableEventHandler,
     onStop: DraggableEventHandler,

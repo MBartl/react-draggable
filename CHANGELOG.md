@@ -1,5 +1,12 @@
 # Changelog
 
+### 5.0.0 (Apr 29, 2024)
+
+> This is a major release due to future deprecation of React findDOMNode.
+
+- Updated all instances of `findDOMNode` with `ref`.
+    - Draggable component either uses the user passed prop or creates a new `ref`
+
 ### 4.4.6 (Sep 27, 2023)
 
 - Fix: state inconsistency in React 18 #699
